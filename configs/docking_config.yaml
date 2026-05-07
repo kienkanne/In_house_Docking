@@ -1,0 +1,28 @@
+libs:
+  chimerax: "/usr/local/chimerax/bin/ChimeraX"
+  obabel: "/home/kbui/miniconda3/envs/MAIN/bin/obabel"
+  vina: "/usr/local/vina/bin/vina"
+  dock6: "/usr/local/dock6/bin/dock6"
+# FIX LATER
+
+common:
+  receptor: "/home/kbui/SARS_COV_2/data/8hqg.pdb1"
+  lig_option: "smiles" # "sdf" or "mol2" or "smiles"
+  ligand: "CC(=O)OC1=CC=CC=C1C(=O)O" # path or string depending on lig_option
+  lig_name: "aspirin.mol2"
+  output_dir: "outputs/"
+  pocket_name: "catalytic_site"
+
+vina:
+  exhaustiveness: 32
+  num_modes: 8
+  cpu: 1
+  padding: 5.0
+  pocket_option: "res" # "res" or "lig"
+  reference: "data/ref_ligand.mol2" # used if pocket_option is "lig"
+  residue_selection: "resi 41,165" # used if pocket_option is "res", should be a valid PyMOL selection string
+
+dock6:
+  max_orientations: 5000
+  padding: 5.0
+  residue_selection: [41,165] # receptor residues only
