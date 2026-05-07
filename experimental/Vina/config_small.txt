@@ -1,0 +1,13 @@
+receptor = 8HQG_charged.pdbqt
+
+center_x = -19.411
+center_y = -11.645 
+center_z =  4.088
+size_x   = 17.987
+size_y   = 21.886
+size_z   = 14.808
+
+cpu = 1
+
+exhaustiveness = 32
+num_modes = 8

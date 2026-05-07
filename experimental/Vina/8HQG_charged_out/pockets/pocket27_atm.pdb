@@ -1,0 +1,40 @@
+HEADER
+HEADER This is a pdb format file writen by the programm fpocket.                 
+HEADER It represents the atoms contacted by the voronoi vertices of the pocket.  
+HEADER                                                                           
+HEADER Information about the pocket    27:
+HEADER 0  - Pocket Score                      : -0.0966
+HEADER 1  - Drug Score                        : 0.0010
+HEADER 2  - Number of alpha spheres           :    22
+HEADER 3  - Mean alpha-sphere radius          : 4.1835
+HEADER 4  - Mean alpha-sphere Solvent Acc.    : 0.5841
+HEADER 5  - Mean B-factor of pocket residues  : 0.5293
+HEADER 6  - Hydrophobicity Score              : 33.4286
+HEADER 7  - Polarity Score                    :     4
+HEADER 8  - Amino Acid based volume Score     : 4.4286
+HEADER 9  - Pocket volume (Monte Carlo)       : 387.7111
+HEADER 10 - Pocket volume (convex hull)       : 16.4684
+HEADER 11 - Charge Score                      :     2
+HEADER 12 - Local hydrophobic density Score   : 6.0000
+HEADER 13 - Number of apolar alpha sphere     :     7
+HEADER 14 - Proportion of apolar alpha sphere : 0.3182
+ATOM   2792   CB ASN B  63      21.139  -1.530  42.370  0.00  0.00           C 0
+ATOM   2803  CD2 HIS B  64      20.748   1.569  47.365  0.00  0.00           C 0
+ATOM   2795  ND2 ASN B  63      23.221  -2.601  41.715  0.42  7.66           N 0
+ATOM   2786   CB SER B  62      23.142   2.622  44.515  0.00  0.00           C 0
+ATOM   2900  NH2 ARG B  76      17.798  -7.421  46.302  0.00  0.00           N 0
+ATOM   2800   CB HIS B  64      18.540   0.574  46.429  0.00  0.00           C 0
+ATOM   2904    O VAL B  77      18.893  -4.196  41.794  0.68  5.36           O 0
+ATOM   2897   NE ARG B  76      15.564  -7.415  45.846  0.00  0.00           N 0
+ATOM   2796    N HIS B  64      19.456   0.542  44.148  0.64  2.19           N 0
+ATOM   2797   CA HIS B  64      18.246   0.769  44.933  0.00  0.00           C 0
+ATOM   2788    N ASN B  63      21.810   0.798  42.610  0.00  0.00           N 0
+ATOM   2894   CB ARG B  76      14.913  -6.748  42.995  0.00  0.00           C 0
+ATOM   2895   CG ARG B  76      13.884  -6.850  44.116  0.00  0.00           C 0
+ATOM   2817    O PHE B  66      14.518   0.735  41.697  0.62  6.43           O 0
+ATOM   2891   CA ARG B  76      14.460  -5.734  41.965  0.00  0.00           C 0
+ATOM   2885    O LEU B  75      12.506  -4.083  40.857  0.29  6.43           O 0
+ATOM   2901    N VAL B  77      16.134  -4.316  40.922  0.54  2.19           N 0
+ATOM   2791    O ASN B  63      18.351   0.228  42.217  0.53  2.14           O 0
+TER
+END

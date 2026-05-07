@@ -1,0 +1,10 @@
+ density type = X
+ reading  8HQG_noH.dms                                                                       type   R
+ # of atoms =   4637   # of surf pts =  47663
+ finding spheres for   8HQG_noH.dms                                                                    
+ dotlim =     0.000
+ radmax =    4.000
+ Minimum radius of acceptable spheres?
+   1.4000000
+ output to  8HQG.rec.sph                                                                    
+ clustering is complete    136  clusters

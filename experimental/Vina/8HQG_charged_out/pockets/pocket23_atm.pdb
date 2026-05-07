@@ -1,0 +1,36 @@
+HEADER
+HEADER This is a pdb format file writen by the programm fpocket.                 
+HEADER It represents the atoms contacted by the voronoi vertices of the pocket.  
+HEADER                                                                           
+HEADER Information about the pocket    23:
+HEADER 0  - Pocket Score                      : -0.0561
+HEADER 1  - Drug Score                        : 0.0001
+HEADER 2  - Number of alpha spheres           :    18
+HEADER 3  - Mean alpha-sphere radius          : 3.8372
+HEADER 4  - Mean alpha-sphere Solvent Acc.    : 0.5047
+HEADER 5  - Mean B-factor of pocket residues  : 0.3748
+HEADER 6  - Hydrophobicity Score              : 16.5000
+HEADER 7  - Polarity Score                    :     3
+HEADER 8  - Amino Acid based volume Score     : 4.0000
+HEADER 9  - Pocket volume (Monte Carlo)       : 235.3499
+HEADER 10 - Pocket volume (convex hull)       : 8.4242
+HEADER 11 - Charge Score                      :     0
+HEADER 12 - Local hydrophobic density Score   : 6.0000
+HEADER 13 - Number of apolar alpha sphere     :     7
+HEADER 14 - Proportion of apolar alpha sphere : 0.3889
+ATOM   4319  CG2 ILE B 259      -1.018   4.037 -13.467  0.00  0.00           C 0
+ATOM   4314   CA ILE B 259      -0.715   1.604 -14.016  0.00  0.00           C 0
+ATOM   4312    O GLY B 258      -1.831  -0.105 -15.889  0.00  0.00           O 0
+ATOM   4348  OD2 ASP B 263       0.321   5.420 -17.872  0.51  7.50           O 0
+ATOM   4014    O ASN B 221      -3.221   9.244 -17.382  0.00  0.00           O 0
+ATOM   4010  CD2 LEU B 220      -4.267   7.313 -11.650  0.00  0.00           C 0
+ATOM   4007   CB LEU B 220      -5.712   8.455 -13.380  0.00  0.00           C 0
+ATOM   4009  CD1 LEU B 220      -6.154   6.032 -12.707  0.00  0.00           C 0
+ATOM   3976  NH1 ARG B 217      -7.737   3.564 -14.715  0.40  7.66           N 0
+ATOM   4344    O ASP B 263       1.266   8.770 -14.086  0.53  1.07           O 0
+ATOM   4318  CG1 ILE B 259      -2.945   2.430 -13.179  0.00  0.00           C 0
+ATOM   4320  CD1 ILE B 259      -3.709   3.364 -12.267  0.00  0.00           C 0
+ATOM   4345   CB ASP B 263       1.396   5.913 -15.831  0.00  0.00           C 0
+ATOM   4011    N ASN B 221      -4.335  10.522 -15.291  0.00  0.00           N 0
+TER
+END

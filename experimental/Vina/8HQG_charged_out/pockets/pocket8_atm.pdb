@@ -1,0 +1,37 @@
+HEADER
+HEADER This is a pdb format file writen by the programm fpocket.                 
+HEADER It represents the atoms contacted by the voronoi vertices of the pocket.  
+HEADER                                                                           
+HEADER Information about the pocket     8:
+HEADER 0  - Pocket Score                      : 0.0277
+HEADER 1  - Drug Score                        : 0.0002
+HEADER 2  - Number of alpha spheres           :    19
+HEADER 3  - Mean alpha-sphere radius          : 3.8177
+HEADER 4  - Mean alpha-sphere Solvent Acc.    : 0.4444
+HEADER 5  - Mean B-factor of pocket residues  : 0.5238
+HEADER 6  - Hydrophobicity Score              : 29.5714
+HEADER 7  - Polarity Score                    :     4
+HEADER 8  - Amino Acid based volume Score     : 4.2857
+HEADER 9  - Pocket volume (Monte Carlo)       : 188.6702
+HEADER 10 - Pocket volume (convex hull)       : 3.7293
+HEADER 11 - Charge Score                      :    -1
+HEADER 12 - Local hydrophobic density Score   : 6.0000
+HEADER 13 - Number of apolar alpha sphere     :     7
+HEADER 14 - Proportion of apolar alpha sphere : 0.3684
+ATOM   4397   CD GLU B 270      -3.505  16.718 -14.382  0.00  0.00           C 0
+ATOM   4451  OD1 ASN B 277      -8.042  21.115 -10.012  0.50  9.64           O 0
+ATOM   4431  OD1 ASN B 274      -2.948  20.516 -13.391  0.71  2.14           O 0
+ATOM   4399  OE2 GLU B 270      -3.899  17.465 -15.304  0.54  5.36           O 0
+ATOM   3990  CZ3 TRP B 218      -8.444  15.867  -8.741  0.00  0.00           C 0
+ATOM   4429   CB ASN B 274      -3.478  21.418 -11.258  0.00  0.00           C 0
+ATOM   4396   CG GLU B 270      -2.598  17.318 -13.290  0.00  0.00           C 0
+ATOM   4436    O GLY B 275      -4.916  19.594  -7.820  0.66  1.07           O 0
+ATOM   4398  OE1 GLU B 270      -3.838  15.511 -14.316  0.60  5.36           O 0
+ATOM   3993   CA PHE B 219      -6.533  12.311 -10.448  0.00  0.00           C 0
+ATOM   3995    O PHE B 219      -4.724  12.355 -12.003  0.00  0.00           O 0
+ATOM   3981    O TRP B 218      -8.791  12.569 -12.097  0.50  4.29           O 0
+ATOM   4407  CD2 LEU B 271      -4.289  15.677  -7.522  0.00  0.00           C 0
+ATOM   4401   CA LEU B 271      -1.682  17.191  -8.652  0.00  0.00           C 0
+ATOM   4405   CG LEU B 271      -2.994  15.022  -7.989  0.00  0.00           C 0
+TER
+END
