@@ -1,15 +1,17 @@
 libs:
   chimerax: "/usr/local/chimerax/bin/ChimeraX"
-  obabel: "/home/kbui/miniconda3/envs/MAIN/bin/obabel"
-  vina: "/usr/local/vina/bin/vina"
+  obabel: "obabel"
+  vina: "vina"
   dock6: "/usr/local/dock6/bin/dock6"
+  prepare_receptor: "pythonsh /home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py"
+  prepare_ligand: "pythonsh /home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_ligand4.py"
 # FIX LATER
 
 common:
-  receptor: "/home/kbui/SARS_COV_2/data/8hqg.pdb1"
+  receptor: "/home/kbui/SARS_COV_2/data/8hqg.pdb"
   lig_option: "smiles" # "sdf" or "mol2" or "smiles"
   ligand: "CC(=O)OC1=CC=CC=C1C(=O)O" # path or string depending on lig_option
-  lig_name: "aspirin.mol2"
+  lig_name: "aspirin"
   output_dir: "outputs/"
   pocket_name: "catalytic_site"
 

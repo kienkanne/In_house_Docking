@@ -7,6 +7,8 @@ class LibsConfig(BaseModel):
     obabel: Path
     vina: Path
     dock6: Path
+    prepare_receptor: str
+    prepare_ligand: str
 
 class CommonConfig(BaseModel):
     receptor: Path

@@ -1,4 +1,4 @@
-receptor = data/8hqg.pdb1
+receptor = /home/kbui/SARS_COV_2/data/8hqg_charged_prepared.pdbqt
 
 center_x = -3.4629993438720703
 center_y = -0.7770004272460938

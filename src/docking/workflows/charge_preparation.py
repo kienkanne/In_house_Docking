@@ -2,11 +2,11 @@ from pathlib import Path
 from string import Template
 import os
 
-from wrappers.common_prep import ChimeraXWrapper, ObabelWrapper
+from docking.wrappers.common_prep import ChimeraXWrapper, ObabelWrapper
 
 
 class ChargeReceptorWorkflow: 
-    def __init__(self, cfg, working_dir):
+    def __init__(self, cfg, working_dir) -> Path:
         self.cfg = cfg
         self.working_dir = working_dir
         with open(Path(__file__).resolve().parents[1] / "templates" / "charge_receptor_template.com") as f:
@@ -15,6 +15,7 @@ class ChargeReceptorWorkflow:
     def run(self):
         receptor = self.cfg.common.receptor
         name = os.path.basename(receptor).split('.')[0]
+        name = f"{name}_charged.pdb"
 
         stdin = Template(self.charge_receptor_template).substitute(
             receptor=receptor,
@@ -27,8 +28,10 @@ class ChargeReceptorWorkflow:
             stdin=stdin)
         chimerax_wrapper.run()
 
+        return self.working_dir / name
+
 class ChargeLigandWorkflow:
-    def __init__(self, cfg, working_dir):
+    def __init__(self, cfg, working_dir) -> Path:
         self.cfg = cfg
         self.working_dir = working_dir
 
@@ -36,6 +39,7 @@ class ChargeLigandWorkflow:
         lig_option = self.cfg.common.lig_option
         ligand = self.cfg.common.ligand
         name = self.cfg.common.lig_name
+        name = f"{name}_charged.mol2"
 
         obabel_wrapper = ObabelWrapper(
             binary_path=self.cfg.libs.obabel, 
@@ -46,3 +50,5 @@ class ChargeLigandWorkflow:
             flags=["--gen3d", "--partialcharge", "gasteiger"] # Default for now
             )
         obabel_wrapper.run()
+
+        return self.working_dir / name

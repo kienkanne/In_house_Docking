@@ -3,10 +3,11 @@ from string import Template
 from pathlib import Path
 
 class VinaBoxWorkflow:
-    def __init__(self, cfg, working_dir, prepared_receptor):
+    def __init__(self, cfg, working_dir, prepared_receptor: Path) -> Path:
         self.cfg = cfg
         self.working_dir = working_dir
         self.prepared_receptor = prepared_receptor
+
         with open(Path(__file__).resolve().parents[1] / "templates" / "vina_config_template.txt") as f:
             self.charge_receptor_template = f.read()
 
@@ -46,10 +47,10 @@ class VinaBoxWorkflow:
             num_modes=self.num_modes
             )
 
-        with open(Path(self.working_dir) / "vina_config.txt", "w") as file:
+        with open(self.working_dir / "vina_config.txt", "w") as file:
             file.write(vina_config)
 
-        return file.name
+        return self.working_dir / "vina_config.txt"
     
 #test:
 

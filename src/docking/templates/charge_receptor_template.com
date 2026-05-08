@@ -3,5 +3,5 @@ delete solvent
 delete ligand
 addh
 addcharge
-save ${name}_charged.mol2
+save $name
 exit

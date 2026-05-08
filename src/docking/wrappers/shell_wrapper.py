@@ -10,7 +10,12 @@ class ShellWrapper:
 
     def _execute(self, cmd_args, stdin=None):
         """Internal runner that handles the subprocess logic."""
-        full_cmd = [self.binary_path] + cmd_args
+        # Handles if binary_path is a string with spaces (e.g. "pythonsh /path/to/script.py")
+        if isinstance(self.binary_path, str):
+            binary_parts = self.binary_path.split()
+            full_cmd = binary_parts + cmd_args
+        else:
+            full_cmd = [self.binary_path] + cmd_args
         print (full_cmd)
         self.logger.info(f"Running: {' '.join([str(arg) for arg in full_cmd])}")
 
