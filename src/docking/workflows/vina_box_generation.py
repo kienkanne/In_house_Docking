@@ -1,9 +1,9 @@
-from docking.wrappers.generate_box import vina_box_from_selection
+from docking.wrappers.vina_generate_box import vina_generate_box
 from string import Template
 from pathlib import Path
 
 class VinaBoxWorkflow:
-    def __init__(self, cfg, working_dir, prepared_receptor: Path) -> Path:
+    def __init__(self, cfg, working_dir, prepared_receptor) -> Path:
         self.cfg = cfg
         self.working_dir = working_dir
         self.prepared_receptor = prepared_receptor
@@ -15,7 +15,7 @@ class VinaBoxWorkflow:
         self.pocket_name = self.cfg.common.pocket_name
 
         if self.cfg.vina.pocket_option == "res":
-            self.input = self.cfg.common.receptor
+            self.input = self.working_dir / self.prepared_receptor
             self.selection = self.cfg.vina.residue_selection
 
         elif self.cfg.vina.pocket_option == "lig":
@@ -28,7 +28,7 @@ class VinaBoxWorkflow:
         self.num_modes = self.cfg.vina.num_modes
 
         # Also outputs a pdb file of the box with pocket name
-        center, size = vina_box_from_selection(
+        center, size = vina_generate_box(
             self.input, 
             self.selection, 
             self.padding, 

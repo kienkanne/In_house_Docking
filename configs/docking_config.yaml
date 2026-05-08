@@ -1,10 +1,16 @@
 libs:
   chimerax: "/usr/local/chimerax/bin/ChimeraX"
   obabel: "obabel"
+
   vina: "vina"
-  dock6: "/usr/local/dock6/bin/dock6"
   prepare_receptor: "pythonsh /home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py"
   prepare_ligand: "pythonsh /home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_ligand4.py"
+  
+  dock6: "/home/kbui/DOCK6/bin/dock6"
+  sphgen: "/home/kbui/DOCK6/bin/sphgen"
+  sphere_selector: "/home/kbui/DOCK6/bin/sphere_selector"
+  showbox: "/home/kbui/DOCK6/bin/showbox"
+  grid: "/home/kbui/DOCK6/bin/grid"
 # FIX LATER
 
 common:
@@ -22,9 +28,10 @@ vina:
   padding: 5.0
   pocket_option: "res" # "res" or "lig"
   reference: "data/ref_ligand.mol2" # used if pocket_option is "lig"
-  residue_selection: "resi 41,165" # used if pocket_option is "res", should be a valid PyMOL selection string
+  residue_selection: "chain A and resi 41" # used if pocket_option is "res", should be a valid PyMOL selection string
 
 dock6:
   max_orientations: 5000
+  radius: 10.0
   padding: 5.0
-  residue_selection: [41,165] # receptor residues only
+  residue_selection: "chain A and resi 41" # used if pocket_option is "res", should be a valid PyMOL selection string

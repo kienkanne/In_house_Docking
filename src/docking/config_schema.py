@@ -5,10 +5,16 @@ from pathlib import Path
 class LibsConfig(BaseModel):
     chimerax: Path
     obabel: Path
+
     vina: Path
-    dock6: Path
     prepare_receptor: str
     prepare_ligand: str
+
+    dock6: Path
+    sphgen: Path
+    sphere_selector: Path
+    showbox: Path
+    grid: Path
 
 class CommonConfig(BaseModel):
     receptor: Path
@@ -29,8 +35,9 @@ class VinaConfig(BaseModel):
 
 class DOCK6Config(BaseModel):
     max_orientations: float = 5000
+    radius: Optional[float] = 10.0
     padding: Optional[float] = 5.0
-    pocket_selection: List[int] = None
+    residue_selection: Optional[str] = None
 
 class RootConfig(BaseModel):
     libs: LibsConfig

@@ -1,0 +1,40 @@
+from string import Template
+from pathlib import Path
+
+from docking.wrappers.dock6_tools import Dock6Wrapper
+
+class Dock6Preparation():
+    def __init__(self, cfg, working_dir, charged_receptor, charged_ligand):
+        self.cfg = cfg
+        self.working_dir = working_dir
+        self.charged_receptor = charged_receptor
+        self.charged_ligand = charged_ligand
+
+        with open(Path(__file__).resolve().parents[1] / "templates" / "dock6_flex_template.txt") as f:
+            self.dock6_flex_template = f.read()
+
+    def run(self):
+        receptor_name = Path(self.charged_receptor).stem.replace("_charged", "")
+        ligand_name = Path(self.charged_ligand).stem.replace("_charged", "") 
+        output_prefix = f"{receptor_name}_{ligand_name}"
+
+        max_orientations = self.cfg.dock6.max_orientations
+
+        flex_input = Template(self.dock6_flex_template).substitute(
+            charged_receptor=self.charged_receptor,
+            charged_ligand=self.charged_ligand,
+            max_orientations=max_orientations,
+            output_prefix=output_prefix
+        )
+
+        with open(self.working_dir / "flex.in", "w") as file:
+            file.write(flex_input)
+
+        dock6_wrapper = Dock6Wrapper(
+            binary_path=self.cfg.libs.dock6,
+            working_dir=self.working_dir,
+            flex="flex.in"
+        )
+
+        docking_results = dock6_wrapper.run()
+        return docking_results

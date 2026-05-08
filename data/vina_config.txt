@@ -1,11 +1,11 @@
-receptor = /home/kbui/SARS_COV_2/data/8hqg_charged_prepared.pdbqt
+receptor = 8hqg_charged_prepared.pdbqt
 
-center_x = -3.4629993438720703
-center_y = -0.7770004272460938
-center_z = 18.619999408721924
-size_x   = 46.70800018310547
-size_y   = 41.35599899291992
-size_z   = 35.09799861907959
+center_x = -22.452500343322754
+center_y = -16.16099977493286
+center_z = 8.653000116348267
+size_x   = 7.330999374389648
+size_y   = 10.588000297546387
+size_z   = 7.682000637054443
 
 cpu = 1
 

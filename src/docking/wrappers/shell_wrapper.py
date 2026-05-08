@@ -3,9 +3,9 @@ import logging
 from pathlib import Path
 
 class ShellWrapper:
-    def __init__(self, binary_path, work_dir=None):
+    def __init__(self, binary_path, working_dir=None):
         self.binary_path = binary_path
-        self.work_dir = Path(work_dir) if work_dir else Path.cwd()
+        self.working_dir = Path(working_dir) if working_dir else Path.cwd()
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def _execute(self, cmd_args, stdin=None):
@@ -16,7 +16,7 @@ class ShellWrapper:
             full_cmd = binary_parts + cmd_args
         else:
             full_cmd = [self.binary_path] + cmd_args
-        print (full_cmd)
+        print (f"Running: {' '.join([str(arg) for arg in full_cmd])}")
         self.logger.info(f"Running: {' '.join([str(arg) for arg in full_cmd])}")
 
         try:
@@ -24,7 +24,7 @@ class ShellWrapper:
                 full_cmd,
                 capture_output=True,
                 text=True,
-                cwd=self.work_dir,
+                cwd=self.working_dir,
                 input=stdin
             )
             

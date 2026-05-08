@@ -1,12 +1,10 @@
 import logging
 from pathlib import Path
-from string import Template
-import os
 import sys
 
-from docking.workflows.vina_box_generation import VinaBoxWorkflow
 from docking.workflows.charge_preparation import ChargeReceptorWorkflow, ChargeLigandWorkflow
-from docking.wrappers.vina_prep import PrepareLigandWrapper, PrepareReceptorWrapper, VinaWrapper
+from docking.workflows.vina_box_generation import VinaBoxWorkflow
+from docking.wrappers.vina_tools import PrepareLigandWrapper, PrepareReceptorWrapper, VinaWrapper
 from docking.config_schema import RootConfig, load_config
 
 
@@ -17,23 +15,23 @@ class FullVinaWorkFlow:
 
     def run(self):
         # Charge receptor and ligand
-        charge_receptor_workflow = ChargeReceptorWorkflow(self.cfg, self.working_dir)
+        charge_receptor_workflow = ChargeReceptorWorkflow(self.cfg, self.working_dir, output_type="pdb")
         charged_receptor = charge_receptor_workflow.run()
 
-        charge_ligand_workflow = ChargeLigandWorkflow(self.cfg, self.working_dir)
+        charge_ligand_workflow = ChargeLigandWorkflow(self.cfg, self.working_dir, output_type="mol2")
         charged_ligand = charge_ligand_workflow.run()
 
         # Prepare receptor and ligand for Vina
         prepare_receptor_wrapper = PrepareReceptorWrapper(
             binary_path=self.cfg.libs.prepare_receptor,
-            work_dir=self.working_dir,
+            working_dir=self.working_dir,
             input_file=charged_receptor
         )
         prepared_receptor = prepare_receptor_wrapper.run()
 
         prepare_ligand_wrapper = PrepareLigandWrapper(
             binary_path=self.cfg.libs.prepare_ligand,
-            work_dir=self.working_dir,
+            working_dir=self.working_dir,
             input_file=charged_ligand
         )
         prepared_ligand = prepare_ligand_wrapper.run()
@@ -45,7 +43,7 @@ class FullVinaWorkFlow:
         # Run Vina docking
         vina_wrapper = VinaWrapper(
             binary_path=self.cfg.libs.vina,
-            work_dir=self.working_dir,
+            working_dir=self.working_dir,
             receptor=prepared_receptor,
             ligand=prepared_ligand,
             configs=vina_config
