@@ -51,12 +51,5 @@ class VinaBoxWorkflow:
             file.write(vina_config)
 
         return self.working_dir / "vina_config.txt"
-    
-#test:
 
-from docking.config_schema import load_config
-if __name__ == "__main__":
-    cfg = load_config("configs/docking_config.yaml")
-    workflow = VinaBoxWorkflow(cfg, Path("data"), Path("data/8hqg.pdb1"))
-    workflow.run()
         

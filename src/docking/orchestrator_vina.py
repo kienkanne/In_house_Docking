@@ -8,7 +8,7 @@ from docking.wrappers.vina_tools import PrepareLigandWrapper, PrepareReceptorWra
 from docking.config_schema import RootConfig, load_config
 
 
-class FullVinaWorkFlow:
+class OrchestratorVina:
     def __init__(self, cfg: RootConfig, working_dir):
         self.cfg = cfg
         self.working_dir = working_dir
@@ -61,5 +61,5 @@ if __name__ == "__main__":
         stream=sys.stdout,
     )
     cfg = load_config("configs/docking_config.yaml")
-    workflow = FullVinaWorkFlow(cfg, Path("/home/kbui/SARS_COV_2/data"))
+    workflow = OrchestratorVina(cfg, Path("/home/kbui/SARS_COV_2/data"))
     workflow.run()

@@ -8,7 +8,7 @@ from docking.workflows.dock6_preparation import Dock6Preparation
 from docking.wrappers.dock6_generate_site import generate_site
 from docking.config_schema import RootConfig, load_config
 
-class FullDock6WorkFlow:
+class OrchestratorDock6:
     def __init__(self, cfg: RootConfig, working_dir):
         self.cfg = cfg
         self.working_dir = working_dir
@@ -74,5 +74,5 @@ if __name__ == "__main__":
         stream=sys.stdout,
     )
     cfg = load_config("configs/docking_config.yaml")
-    workflow = FullDock6WorkFlow(cfg, Path("/home/kbui/SARS_COV_2/data"))
+    workflow = OrchestratorDock6(cfg, Path("/home/kbui/SARS_COV_2/data"))
     workflow.run()
