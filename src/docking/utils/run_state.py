@@ -33,18 +33,29 @@ class RunState:
         self.save()
 
     def mark_done(self, stage: str, output=None):
-        if isinstance(output, (list, tuple)):
-            stored_output = [str(item) for item in output]
-        else:
-            stored_output = str(output) if output else None
-        self.state[stage] = {"status": "done", "output": stored_output}
+        # Recursively convert Path objects to strings, but keep list structures intact
+        def serialize(obj):
+            if isinstance(obj, (list, tuple)):
+                return [serialize(i) for i in obj]
+            if isinstance(obj, Path):
+                return str(obj)
+            return obj
+
+        self.state[stage] = {"status": "done", "output": serialize(output)}
         self.save()
 
     def get_output(self, stage: str):
         entry = self.state.get(stage, {})
-        val = entry.get("output") if isinstance(entry, dict) else None
+        if not isinstance(entry, dict):
+            return None
+            
+        val = entry.get("output")
+        
+        # If it's a list, return it (the caller will unpack the tuple of lists)
         if isinstance(val, list):
             return val
+            
+        # If it's a single string, it might be a path
         return Path(val) if val else None
     
     def is_done(self, stage: str) -> bool:

@@ -65,10 +65,18 @@ class OrchestratorVina:
             parallel_workflow.run,
             checkpoint=False,
         )
-
-        self.cfg.common.results_dir.mkdir(parents=True, exist_ok=True)
         
-        selected_copy = [result for result in docking_results] + [log for log in log_files] + [
+        self.cfg.common.results_dir.mkdir(parents=True, exist_ok=True)
+        Path(self.cfg.common.results_dir / "raw").mkdir(parents=True, exist_ok=True)
+        
+
+        # results and logs are copied to results/raw/ for easier access and debugging
+        for file in docking_results + log_files:
+            src = self.working_dir / file
+            dst = self.cfg.common.results_dir / "raw" / file
+            shutil.copy2(src, dst)
+
+        selected_copy = [
             prepared_receptor,
             vina_config, 
             vina_box,

@@ -18,11 +18,11 @@ libs:
 
 common:
   # working_dir is scratch space; receptor and ligand inputs are read from here or absolute paths.
-  working_dir: "/home/kbui/SARS_COV_2/scratch/sample_dock6/"
-  receptor: "/home/kbui/SARS_COV_2/data/8hqg.pdb"
+  working_dir: "/home/kbui/SARS_COV_2/scratch/catalytic_dock6/"
+  receptor: "/home/kbui/SARS_COV_2/data/6W63.pdb"
   # CSV header must be: smiles,name
-  ligand: "/home/kbui/SARS_COV_2/data/sample_ligands.csv"
-  results_dir: "/home/kbui/SARS_COV_2/results/results_dock6/"
+  ligand: "/home/kbui/SARS_COV_2/data/ligands_list.csv"
+  results_dir: "/home/kbui/SARS_COV_2/results/catalytic_dock6/"
   pocket_name: "catalytic_site"
   # Vina parallel jobs = total_cpu // vina.cpu; DOCK6 parallel jobs = total_cpu.
   total_cpu: 16
@@ -30,17 +30,21 @@ common:
   max_poses: 8
 
 vina:
-  exhaustiveness: 32
+  exhaustiveness: 64
   num_modes: 8
   # CPU count per ligand docking job.
   cpu: 1
   padding: 5.0
-  pocket_option: "lig" # "res" or "lig"
-  reference: "/home/kbui/SARS_COV_2/data/ref_ligand.pdb" # used if pocket_option is "lig"
-  residue_selection: "chain A and resi 41+145" # used if pocket_option is "res", should be a valid PyMOL selection string
+  # "res" or "lig"
+  pocket_option: "res"
+  # used if pocket_option is "lig"
+  reference: "/home/kbui/SARS_COV_2/data/ref_ligand.pdb"
+  # used if pocket_option is "res", should be a valid PyMOL selection string
+  residue_selection: "chain A and resi 41+145+140+143+144+145+163+166" 
 
 dock6:
   max_orientations: 5000
   radius: 10.0
   padding: 5.0
-  residue_selection: "chain A and resi 41+145" # used if pocket_option is "res", should be a valid PyMOL selection string
+  # should be a valid PyMOL selection string
+  residue_selection: "chain A and resi 41+145+140+143+144+145+163+166"

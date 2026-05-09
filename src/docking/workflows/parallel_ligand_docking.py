@@ -73,7 +73,7 @@ class ParallelLigandDockingWorkflow:
         logs = []
         for ligand in self.ligands:
             ligand_payload = self._ligand_payload(ligand)
-            result_path = task_dir / f"{ligand_payload['name']}.result.json"
+            result_path = task_dir / f'{ligand_payload["name"]}.result.json'
             if not result_path.exists():
                 raise FileNotFoundError(f"Parallel task did not produce result: {result_path}")
             with open(result_path) as handle:

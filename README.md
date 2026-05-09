@@ -9,6 +9,13 @@ The pipeline prepares the receptor, prepares each ligand from SMILES, docks liga
 
 ## Installation
 
+Install Conda (Miniconda or Anaconda), then create the environment:
+
+```bash
+conda env create -n myproject python=3.11
+conda activate myproject
+```
+
 Install the Python package in editable mode from the repository root:
 
 ```bash

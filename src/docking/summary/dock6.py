@@ -21,7 +21,7 @@ def write_dock6_summary(results_dir: Path, receptor, max_poses: int) -> Path:
     receptor_stem = Path(receptor).stem
     rows = []
 
-    for path in sorted(results_dir.glob("*_scored.mol2")):
+    for path in sorted(results_dir.rglob("*_scored.mol2")):
         name = ligand_name_from_output(path, receptor_stem, "_scored.mol2")
         scores = parse_dock6_scores(path, max_poses)
         rows.append([name] + scores + [""] * (max_poses - len(scores)))

@@ -21,7 +21,7 @@ def write_vina_summary(results_dir: Path, receptor, max_poses: int) -> Path:
     receptor_stem = Path(receptor).stem
     rows = []
 
-    for path in sorted(results_dir.glob("*_docked.pdbqt")):
+    for path in sorted(results_dir.rglob("*_docked.pdbqt")):
         name = ligand_name_from_output(path, receptor_stem, "_docked.pdbqt")
         scores = parse_vina_scores(path, max_poses)
         rows.append([name] + scores + [""] * (max_poses - len(scores)))

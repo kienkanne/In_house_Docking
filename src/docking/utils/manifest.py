@@ -21,6 +21,8 @@ class Manifest:
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
 
+        
+
         self.data = {
             "project": str(name),
             "created_utc": utc_now(),
@@ -29,7 +31,8 @@ class Manifest:
             "python_version": platform.python_version(),
             "status": "running",
             "stages": {},
-            "timings_sec": {}
+            "timings_sec": {},
+            "total_wall_time": ""
         }
 
         self._timers = {}
@@ -61,6 +64,9 @@ class Manifest:
     def finalize(self, success=True):
         self.data["status"] = "success" if success else "failed"
         self.data["finished_utc"] = utc_now()
+
+        total_dt = time.perf_counter() - self._start_time
+        self.data["total_wall_time"] = f"{total_dt:.3f}s"
         self.save()
 
     def save(self):

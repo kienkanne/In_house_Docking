@@ -17,8 +17,11 @@ class ChargeReceptorWorkflow:
     def run(self):
         receptor = self.cfg.common.receptor
         name = Path(receptor).stem
-        charged_name = f"{name}_charged.pdb"
-
+        if self.dock6:
+            charged_name = f"{name}_charged.mol2"
+        else:
+            charged_name = f"{name}_charged.pdb"
+        
         stdin = Template(self.charge_receptor_template).substitute(
             receptor=receptor,
             name=charged_name
@@ -38,8 +41,8 @@ class ChargeReceptorWorkflow:
         
         if self.dock6:
             return (charged_name, f"{name}_charged_noH.mol2", f"{name}_charged_noH.pdb")
-
-        return charged_name
+        else:
+            return charged_name
 
 class ChargeLigandWorkflow:
     def __init__(self, cfg, working_dir, output_type, ligand=None, ligand_name=None) -> Path:

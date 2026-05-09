@@ -83,8 +83,7 @@ def vina_generate_box(pdb_file,
         )
 
         coords = np.array(stored["xyz"])
-        print (coords)
-        print (selection)
+
         if len(coords) == 0:
             raise ValueError(
                 f"No atoms matched selection:\n{selection}"
