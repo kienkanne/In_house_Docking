@@ -1,11 +1,12 @@
 from pathlib import Path
 import shutil
 
-from docking.workflows.charge_preparation import ChargeReceptorWorkflow, ChargeLigandWorkflow 
+from docking.workflows.charge_preparation import ChargeReceptorWorkflow
 from docking.wrappers.dock6_tools import WriteDMSWrapper, SphgenDefaultWrapper, SphereSelectorDefaultWrapper, ShowboxDefaultWrapper, GridDefaultWrapper
-from docking.workflows.dock6_preparation import Dock6Preparation
+from docking.workflows.parallel_ligand_docking import ParallelLigandDockingWorkflow
 from docking.wrappers.dock6_generate_site import generate_site
 from docking.config_schema import RootConfig
+from docking.summary.dock6 import write_dock6_summary
 from docking.utils.central_logging import setup_all_logs, central_run_stage
 from docking.utils.ligands import load_ligand_csv
 
@@ -64,36 +65,20 @@ class OrchestratorDock6:
         grid_wrapper = GridDefaultWrapper(self.cfg.libs.grid, self.working_dir, charged_receptor)
         central_run_stage(logs, "Generate Grid", grid_wrapper.run)
   
-        docking_results = []
-        log_files = []
-
-        for ligand in ligands:
-            charge_ligand_workflow = ChargeLigandWorkflow(
-                self.cfg,
-                self.working_dir,
-                output_type="mol2",
-                ligand=ligand.smiles,
-                ligand_name=ligand.name,
-            )
-            charged_ligand = central_run_stage(
-                logs,
-                f"Charge Ligand {ligand.name}",
-                charge_ligand_workflow.run,
-            )
-
-            dock6_wrapper = Dock6Preparation(
-                cfg=self.cfg,
-                working_dir=self.working_dir,
-                charged_receptor=charged_receptor,
-                charged_ligand=charged_ligand
-            )
-            docking_result, log_file = central_run_stage(
-                logs,
-                f"Dock DOCK6 {ligand.name}",
-                dock6_wrapper.run,
-            )
-            docking_results.append(docking_result)
-            log_files.append(log_file)
+        parallel_workflow = ParallelLigandDockingWorkflow(
+            self.cfg,
+            self.working_dir,
+            engine="dock6",
+            ligands=ligands,
+            jobs=self.cfg.common.total_cpu,
+            charged_receptor=charged_receptor,
+        )
+        docking_results, log_files = central_run_stage(
+            logs,
+            "Dock DOCK6 Ligands",
+            parallel_workflow.run,
+            checkpoint=False,
+        )
 
         self.cfg.common.results_dir.mkdir(parents=True, exist_ok=True)
 
@@ -108,8 +93,17 @@ class OrchestratorDock6:
         for file in selected_copy:
             src = self.working_dir / file
             dst = self.cfg.common.results_dir / file
-            print (dst)
             shutil.copy2(src, dst)
+
+        central_run_stage(
+            logs,
+            "Write DOCK6 Summary",
+            write_dock6_summary,
+            self.cfg.common.results_dir,
+            self.cfg.common.receptor,
+            self.cfg.common.max_poses,
+            checkpoint=False,
+        )
 
         logger, manifest, _ = logs
         manifest.finalize(success=True)

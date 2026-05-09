@@ -1,0 +1,25 @@
+{
+  "Validate Ligands": {
+    "status": "done",
+    "output": null
+  },
+  "Charge Receptor": {
+    "status": "done",
+    "output": "8hqg_charged.pdb"
+  },
+  "Prepare Receptor": {
+    "status": "done",
+    "output": "8hqg_charged_prepared.pdbqt"
+  },
+  "Generate Vina Box": {
+    "status": "done",
+    "output": [
+      "vina_config.txt",
+      "catalytic_site.pdb"
+    ]
+  },
+  "Dock Vina Ligands": {
+    "status": "done",
+    "output": null
+  }
+}

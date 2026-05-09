@@ -1,10 +1,12 @@
 from pathlib import Path
 import shutil
 
-from docking.workflows.charge_preparation import ChargeReceptorWorkflow, ChargeLigandWorkflow
+from docking.workflows.charge_preparation import ChargeReceptorWorkflow
+from docking.workflows.parallel_ligand_docking import ParallelLigandDockingWorkflow
 from docking.workflows.vina_box_generation import VinaBoxWorkflow
-from docking.wrappers.vina_tools import PrepareLigandWrapper, PrepareReceptorWrapper, VinaWrapper
+from docking.wrappers.vina_tools import PrepareReceptorWrapper
 from docking.config_schema import RootConfig
+from docking.summary.vina import write_vina_summary
 from docking.utils.central_logging import setup_all_logs, central_run_stage
 from docking.utils.ligands import load_ligand_csv
 
@@ -46,47 +48,23 @@ class OrchestratorVina:
         vina_box_workflow = VinaBoxWorkflow(self.cfg, self.working_dir, prepared_receptor)
         vina_config, vina_box = central_run_stage(logs, "Generate Vina Box", vina_box_workflow.run)
 
-        docking_results = []
-        log_files = []
-        for ligand in ligands:
-            charge_ligand_workflow = ChargeLigandWorkflow(
-                self.cfg,
-                self.working_dir,
-                output_type="mol2",
-                ligand=ligand.smiles,
-                ligand_name=ligand.name,
-            )
-            charged_ligand = central_run_stage(
-                logs,
-                f"Charge Ligand {ligand.name}",
-                charge_ligand_workflow.run,
-            )
-
-            prepare_ligand_wrapper = PrepareLigandWrapper(
-                binary_path=self.cfg.libs.prepare_ligand,
-                working_dir=self.working_dir,
-                input_file=charged_ligand
-            )
-            prepared_ligand = central_run_stage(
-                logs,
-                f"Prepare Ligand {ligand.name}",
-                prepare_ligand_wrapper.run,
-            )
-
-            vina_wrapper = VinaWrapper(
-                binary_path=self.cfg.libs.vina,
-                working_dir=self.working_dir,
-                receptor=prepared_receptor,
-                ligand=prepared_ligand,
-                configs=vina_config
-            )
-            docking_result, log_file = central_run_stage(
-                logs,
-                f"Dock Vina {ligand.name}",
-                vina_wrapper.run,
-            )
-            docking_results.append(docking_result)
-            log_files.append(log_file)
+        vina_cpu = max(1, int(self.cfg.vina.cpu or 1))
+        jobs = max(1, int(self.cfg.common.total_cpu) // vina_cpu)
+        parallel_workflow = ParallelLigandDockingWorkflow(
+            self.cfg,
+            self.working_dir,
+            engine="vina",
+            ligands=ligands,
+            jobs=jobs,
+            prepared_receptor=prepared_receptor,
+            vina_config=vina_config,
+        )
+        docking_results, log_files = central_run_stage(
+            logs,
+            "Dock Vina Ligands",
+            parallel_workflow.run,
+            checkpoint=False,
+        )
 
         self.cfg.common.results_dir.mkdir(parents=True, exist_ok=True)
         
@@ -102,8 +80,17 @@ class OrchestratorVina:
         for file in selected_copy:
             src = self.working_dir / file
             dst = self.cfg.common.results_dir / file
-            print (dst)
             shutil.copy2(src, dst)
+
+        central_run_stage(
+            logs,
+            "Write Vina Summary",
+            write_vina_summary,
+            self.cfg.common.results_dir,
+            self.cfg.common.receptor,
+            self.cfg.common.max_poses,
+            checkpoint=False,
+        )
 
         logger, manifest, _ = logs
         manifest.finalize(success=True)

@@ -1,0 +1,110 @@
+HEADER    VIRAL PROTEIN/INHIBITOR                 13-DEC-22   XXXX              
+TITLE     CRYSTAL STRUCTURE OF SARS-COV-2 MAIN PROTEASE K90R MUTANT IN COMPLEX  
+TITLE    2 WITH INHIBITOR YH-53                                                 
+KEYWDS    VIRAL PROTEIN-INHIBITOR COMPLEX, K90R MUTANT                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+AUTHOR    J.WANG,J.ZHANG,J.LI                                                   
+JRNL        AUTH   J.LUO,W.WANG,H.JIANG,W.LI,P.ZENG,J.WANG,X.ZHOU,X.ZOU,S.CHEN, 
+JRNL        AUTH 2 Q.WANG,J.ZHANG,J.LI                                          
+JRNL        TITL   CRYSTAL STRUCTURES OF MAIN PROTEASES OF SARS-COV-2 VARIANTS  
+JRNL        TITL 2 BOUND TO A BENZOTHIAZOLE-BASED INHIBITOR.                    
+JRNL        REF    ACTA BIOCHIM.BIOPHYS.SIN.     V.  55  1257 2023              
+JRNL        REFN                   ESSN 1745-7270                               
+JRNL        PMID   37357528                                                     
+JRNL        DOI    10.3724/ABBS.2023053                                         
+HETNAM     HUR N-[(2S)-1-[[(2S)-1-(1,3-BENZOTHIAZOL-2-YL)-1-                    
+HETNAM   2 HUR  OXIDANYLIDENE-3-[(3S)-2-OXIDANYLIDENEPYRROLIDIN-3-              
+HETNAM   3 HUR  YL]PROPAN-2-YL]AMINO]-4-METHYL-1-OXIDANYLIDENE-PENTAN-          
+HETNAM   4 HUR  2-YL]-4-METHOXY-1H-INDOLE-2-CARBOXAMIDE                         
+FORMUL   3  HUR    2(C30 H33 N5 O5 S)                                           
+FORMUL   5  HOH   *75(H2 O)                                                     
+CRYST1   55.127   99.033   59.320  90.00 108.05  90.00 P 1 21 1      4          
+ORIGX1      1.000000  0.000000  0.000000        0.00000                         
+ORIGX2      0.000000  1.000000  0.000000        0.00000                         
+ORIGX3      0.000000  0.000000  1.000000        0.00000                         
+SCALE1      0.018140  0.000000  0.005910        0.00000                         
+SCALE2      0.000000  0.010098  0.000000        0.00000                         
+SCALE3      0.000000  0.000000  0.017730        0.00000                         
+HETATM    1  C1  HUR A 401     -23.644  -7.878  -3.481  1.00 36.35           C
+HETATM    2  C10 HUR A 401     -21.270  -9.507   1.903  1.00 37.11           C
+HETATM    3  C11 HUR A 401     -21.060 -11.291   3.595  1.00 29.52           C
+HETATM    4  C12 HUR A 401     -19.550 -11.410   3.553  1.00 31.20           C
+HETATM    5  C13 HUR A 401     -17.331 -11.141   4.688  1.00 31.12           C
+HETATM    6  C14 HUR A 401     -16.605  -9.803   4.858  1.00 30.94           C
+HETATM    7  C15 HUR A 401     -16.669  -9.114   3.463  1.00 33.38           C
+HETATM    8  C16 HUR A 401     -15.941  -9.762   2.574  1.00 34.34           C
+HETATM    9  C17 HUR A 401     -15.024  -8.671   1.875  1.00 36.19           C
+HETATM   10  C18 HUR A 401     -16.054  -7.564   3.550  1.00 33.07           C
+HETATM   11  C19 HUR A 401     -16.916 -12.234   5.689  1.00 30.35           C
+HETATM   12  C2  HUR A 401     -23.001  -6.677  -3.168  1.00 36.59           C
+HETATM   13  C20 HUR A 401     -17.655 -13.541   5.545  1.00 30.30           C
+HETATM   14  C21 HUR A 401     -18.058 -15.625   4.628  1.00 33.74           C
+HETATM   15  C22 HUR A 401     -19.126 -15.610   5.513  1.00 32.13           C
+HETATM   16  C23 HUR A 401     -17.836 -16.742   3.785  1.00 34.59           C
+HETATM   17  C24 HUR A 401     -18.702 -17.825   3.845  1.00 33.06           C
+HETATM   18  C25 HUR A 401     -19.773 -17.807   4.744  1.00 31.85           C
+HETATM   19  C26 HUR A 401     -19.983 -16.702   5.579  1.00 33.40           C
+HETATM   20  C27 HUR A 401     -21.683 -12.658   3.842  1.00 28.30           C
+HETATM   21  C28 HUR A 401     -23.126 -12.477   4.300  1.00 32.90           C
+HETATM   22  C29 HUR A 401     -23.850 -13.816   4.467  1.00 33.04           C
+HETATM   23  C3  HUR A 401     -22.286  -6.558  -1.975  1.00 35.79           C
+HETATM   24  C30 HUR A 401     -23.198 -11.627   5.562  1.00 32.18           C
+HETATM   25  C4  HUR A 401     -22.212  -7.662  -1.082  1.00 34.06           C
+HETATM   26  C5  HUR A 401     -22.843  -8.839  -1.394  1.00 32.31           C
+HETATM   27  C6  HUR A 401     -23.573  -8.960  -2.611  1.00 34.15           C
+HETATM   28  C7  HUR A 401     -21.795  -8.999   0.583  1.00 32.70           C
+HETATM   29  C8  HUR A 401     -22.587  -9.716  -0.315  1.00 34.32           C
+HETATM   30  C9  HUR A 401     -24.470 -10.421  -4.251  1.00 41.23           C
+HETATM   31  N1  HUR A 401     -21.586  -7.784   0.120  1.00 32.67           N
+HETATM   32  N2  HUR A 401     -21.561 -10.851   2.324  1.00 33.98           N
+HETATM   33  N3  HUR A 401     -18.778 -10.995   4.717  1.00 29.64           N
+HETATM   34  N4  HUR A 401     -14.861  -7.584   3.000  1.00 38.03           N
+HETATM   35  N5  HUR A 401     -17.279 -14.468   4.681  1.00 32.15           N
+HETATM   36  O1  HUR A 401     -24.206 -10.174  -2.894  1.00 34.02           O
+HETATM   37  O2  HUR A 401     -20.644  -8.791   2.601  1.00 33.03           O
+HETATM   38  O3  HUR A 401     -19.021 -11.827   2.577  1.00 31.54           O
+HETATM   39  O4  HUR A 401     -15.937 -12.200   6.336  1.00 30.27           O
+HETATM   40  O5  HUR A 401     -16.070  -7.098   4.845  1.00 31.32           O
+HETATM   41  S1  HUR A 401     -19.045 -14.107   6.344  1.00 33.68           S
+CONECT    1   12   27
+CONECT    2   28   32   37
+CONECT    3    4   20   32
+CONECT    4    3   33   38
+CONECT    5    6   11   33
+CONECT    6    5    7
+CONECT    7    6    8   10
+CONECT    8    7    9
+CONECT    9    8   34
+CONECT   10    7   34   40
+CONECT   11    5   13   39
+CONECT   12    1   23
+CONECT   13   11   35   41
+CONECT   14   15   16   35
+CONECT   15   14   19   41
+CONECT   16   14   17
+CONECT   17   16   18
+CONECT   18   17   19
+CONECT   19   15   18
+CONECT   20    3   21
+CONECT   21   20   22   24
+CONECT   22   21
+CONECT   23   12   25
+CONECT   24   21
+CONECT   25   23   26   31
+CONECT   26   25   27   29
+CONECT   27    1   26   36
+CONECT   28    2   29   31
+CONECT   29   26   28
+CONECT   30   36
+CONECT   31   25   28
+CONECT   32    2    3
+CONECT   33    4    5
+CONECT   34    9   10
+CONECT   35   13   14
+CONECT   36   27   30
+CONECT   37    2
+CONECT   38    4
+CONECT   39   11
+CONECT   40   10
+CONECT   41   13   15
+END

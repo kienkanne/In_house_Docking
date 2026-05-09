@@ -1,7 +1,7 @@
 [project]
 name = "docking"
 version = "0.1.0"
-dependencies = ["vina", "pymol-open-source", "pydantic", "obabel", "numpy"]
+dependencies = ["vina", "pydantic", "numpy", "pymol-open-source"]
 
 [project.scripts]
-myamber = "docking.cli.main:main"
+docking = "docking.cli.main:main"

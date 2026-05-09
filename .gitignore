@@ -43,6 +43,7 @@ logs/
 tmp/
 temp/
 scratch/
+results/
 *.tmp
 *.bak
 

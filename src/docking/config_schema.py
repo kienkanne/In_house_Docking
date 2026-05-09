@@ -1,10 +1,12 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 from pathlib import Path
+
 
 class LibsConfig(BaseModel):
     chimerax: Path
     obabel: Path
+    parallel: str = "parallel"
 
     vina: Path
     prepare_receptor: str
@@ -16,6 +18,7 @@ class LibsConfig(BaseModel):
     showbox: Path
     grid: Path
 
+
 class CommonConfig(BaseModel):
     working_dir: Path
     receptor: Path
@@ -23,6 +26,9 @@ class CommonConfig(BaseModel):
     lig_name: Optional[str] = None
     results_dir: Path
     pocket_name: str
+    total_cpu: int = 1
+    max_poses: int = 8
+
 
 class VinaConfig(BaseModel):
     exhaustiveness: Optional[int] = 32
@@ -33,17 +39,20 @@ class VinaConfig(BaseModel):
     reference: Optional[Path] = None
     residue_selection: Optional[str] = None
 
+
 class DOCK6Config(BaseModel):
     max_orientations: float = 5000
     radius: Optional[float] = 10.0
     padding: Optional[float] = 5.0
     residue_selection: Optional[str] = None
 
+
 class RootConfig(BaseModel):
     libs: LibsConfig
     common: CommonConfig
     vina: VinaConfig
     dock6: DOCK6Config
+
 
 def load_config(path):
     import yaml

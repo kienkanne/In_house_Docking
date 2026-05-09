@@ -4,11 +4,12 @@ from pathlib import Path
 from docking.wrappers.dock6_tools import Dock6Wrapper
 
 class Dock6Preparation():
-    def __init__(self, cfg, working_dir, charged_receptor, charged_ligand):
+    def __init__(self, cfg, working_dir, charged_receptor, charged_ligand, flex_name="flex.in"):
         self.cfg = cfg
         self.working_dir = working_dir
         self.charged_receptor = charged_receptor
         self.charged_ligand = charged_ligand
+        self.flex_name = flex_name
 
         with open(Path(__file__).resolve().parents[1] / "templates" / "dock6_flex_template.txt") as f:
             self.dock6_flex_template = f.read()
@@ -27,13 +28,13 @@ class Dock6Preparation():
             output_prefix=output_prefix
         )
 
-        with open(self.working_dir / "flex.in", "w") as file:
+        with open(self.working_dir / self.flex_name, "w") as file:
             file.write(flex_input)
 
         dock6_wrapper = Dock6Wrapper(
             binary_path=self.cfg.libs.dock6,
             working_dir=self.working_dir,
-            flex="flex.in"
+            flex=self.flex_name
         )
 
         docking_results = dock6_wrapper.run()
@@ -45,4 +46,3 @@ class Dock6Preparation():
             file.write(docking_results)
 
         return output_file, log_file
-

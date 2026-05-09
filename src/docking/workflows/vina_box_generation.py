@@ -20,7 +20,7 @@ class VinaBoxWorkflow:
 
         elif self.cfg.vina.pocket_option == "lig":
             self.input = self.cfg.vina.reference
-            self.selection = f"byres ({self.cfg.vina.reference})" # should select all of the given reference
+            self.selection = f"all" # should select all of the given reference
 
         self.padding = self.cfg.vina.padding
         self.cpu = self.cfg.vina.cpu

@@ -1,0 +1,22 @@
+{
+  "project": "vina_docking",
+  "created_utc": "2026-05-09T08:47:45.947159+00:00",
+  "host": "irene2",
+  "platform": "Linux-6.12.0-124.31.1.el10_1.x86_64-x86_64-with-glibc2.39",
+  "python_version": "3.11.15",
+  "status": "running",
+  "stages": {
+    "Validate Ligands": "done",
+    "Charge Receptor": "done",
+    "Prepare Receptor": "done",
+    "Generate Vina Box": "done",
+    "Dock Vina Ligands": "done"
+  },
+  "timings_sec": {
+    "Validate Ligands": 0.2,
+    "Charge Receptor": 19.065,
+    "Prepare Receptor": 1.12,
+    "Generate Vina Box": 0.009,
+    "Dock Vina Ligands": 143.913
+  }
+}
