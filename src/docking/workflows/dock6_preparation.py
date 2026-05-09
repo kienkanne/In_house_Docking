@@ -37,4 +37,12 @@ class Dock6Preparation():
         )
 
         docking_results = dock6_wrapper.run()
-        return docking_results
+
+        output_file = Path(f"{output_prefix}_scored.mol2")
+        log_file = output_file.with_suffix(".log")
+
+        with open(self.working_dir / log_file, "w") as file:
+            file.write(docking_results)
+
+        return output_file, log_file
+

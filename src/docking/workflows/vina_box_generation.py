@@ -50,6 +50,6 @@ class VinaBoxWorkflow:
         with open(self.working_dir / "vina_config.txt", "w") as file:
             file.write(vina_config)
 
-        return self.working_dir / "vina_config.txt"
+        return "vina_config.txt", f"{self.pocket_name}.pdb"
 
         

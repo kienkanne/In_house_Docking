@@ -1,7 +1,7 @@
 from pathlib import Path
-from amber_pipeline.utils.logging_utils import setup_logger
-from amber_pipeline.utils.manifest import Manifest
-from amber_pipeline.utils.run_state import RunState
+from docking.utils.logging_utils import setup_logger
+from docking.utils.manifest import Manifest
+from docking.utils.run_state import RunState
 
 
 def setup_all_logs(prj_name: str, logger_path: Path, manifest_path: Path, state_path: Path) -> tuple:
@@ -12,10 +12,10 @@ def setup_all_logs(prj_name: str, logger_path: Path, manifest_path: Path, state_
     return (logger, manifest, state)
 
 # Central running and logging wrapper
-def central_run_stage(logs, stage_name, func, *args, **kwargs):
+def central_run_stage(logs, stage_name, func, *args, checkpoint=True, **kwargs):
     logger, manifest, state = logs
 
-    if state.is_done(stage_name):
+    if checkpoint and state.is_done(stage_name):
         logger.info(f"{stage_name} already done, skipping")
         return state.get_output(stage_name)
 
@@ -26,7 +26,7 @@ def central_run_stage(logs, stage_name, func, *args, **kwargs):
 
         result = func(*args, **kwargs)
 
-        state.mark_done(stage_name)
+        state.mark_done(stage_name, result if checkpoint else None)
         manifest.stage_done(stage_name)
         logger.info(f"{stage_name} completed")
 

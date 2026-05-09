@@ -11,9 +11,9 @@ def setup_logger(log_path: str, level=logging.INFO):
     logger = logging.getLogger("docking")
     logger.setLevel(level)
 
-    # Prevent duplicate handlers
-    if logger.handlers:
-        return logger
+    for handler in logger.handlers[:]:
+        logger.removeHandler(handler)
+        handler.close()
 
     formatter = logging.Formatter(
         "%(asctime)s | %(levelname)-8s | %(message)s",

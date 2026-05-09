@@ -17,11 +17,11 @@ class LibsConfig(BaseModel):
     grid: Path
 
 class CommonConfig(BaseModel):
+    working_dir: Path
     receptor: Path
-    lig_option: str
     ligand: Path
-    lig_name: str
-    output_dir: Path
+    lig_name: Optional[str] = None
+    results_dir: Path
     pocket_name: str
 
 class VinaConfig(BaseModel):

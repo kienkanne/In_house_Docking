@@ -70,7 +70,7 @@ def write_box_pdb(center, size, outfile):
 def vina_generate_box(pdb_file,
                             selection,
                             padding,
-                            output_box):
+                            output):
     with pymol2.PyMOL() as pymol:
         pymol.start()
         pymol.cmd.load(pdb_file, "receptor")
@@ -95,6 +95,6 @@ def vina_generate_box(pdb_file,
         size = (maxv - minv) + padding
         center = (minv + maxv) / 2
 
-        write_box_pdb(center, size, output_box)
+        write_box_pdb(center, size, output)
 
         return center, size

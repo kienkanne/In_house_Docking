@@ -3,10 +3,10 @@ import logging
 from pathlib import Path
 
 class ShellWrapper:
-    def __init__(self, binary_path, working_dir=None):
+    def __init__(self, binary_path, working_dir):
         self.binary_path = binary_path
         self.working_dir = Path(working_dir) if working_dir else Path.cwd()
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = logging.getLogger(f"docking.{self.__class__.__name__}")
 
     def _execute(self, cmd_args, stdin=None):
         """Internal runner that handles the subprocess logic."""
@@ -16,7 +16,6 @@ class ShellWrapper:
             full_cmd = binary_parts + cmd_args
         else:
             full_cmd = [self.binary_path] + cmd_args
-        print (f"Running: {' '.join([str(arg) for arg in full_cmd])}")
         self.logger.info(f"Running: {' '.join([str(arg) for arg in full_cmd])}")
 
         try:
@@ -41,13 +40,3 @@ class ShellWrapper:
             self.logger.error(f"Command failed with exit code {e.returncode}")
             self.logger.error(f"Error output: {e.stderr}")
             raise
-
-# Usage for ChimeraX
-class ChimeraXWrapper(ShellWrapper):
-    def run_script(self, script_path):
-        return self._execute([ "--nogui", str(script_path)])
-
-# Usage for Vina
-class VinaWrapper(ShellWrapper):
-    def dock(self, receptor, ligand):
-        return self._execute(["--receptor", receptor, "--ligand", ligand])

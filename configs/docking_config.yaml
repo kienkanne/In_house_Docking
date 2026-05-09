@@ -11,14 +11,12 @@ libs:
   sphere_selector: "/home/kbui/DOCK6/bin/sphere_selector"
   showbox: "/home/kbui/DOCK6/bin/showbox"
   grid: "/home/kbui/DOCK6/bin/grid"
-# FIX LATER
 
 common:
+  working_dir: "/home/kbui/SARS_COV_2/sample_dock6/"
   receptor: "/home/kbui/SARS_COV_2/data/8hqg.pdb"
-  lig_option: "smiles" # "sdf" or "mol2" or "smiles"
-  ligand: "CC(=O)OC1=CC=CC=C1C(=O)O" # path or string depending on lig_option
-  lig_name: "aspirin"
-  output_dir: "outputs/"
+  ligand: "/home/kbui/SARS_COV_2/data/sample_ligands.csv"
+  results_dir: "/home/kbui/SARS_COV_2/results_dock6/"
   pocket_name: "catalytic_site"
 
 vina:

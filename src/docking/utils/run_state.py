@@ -33,12 +33,18 @@ class RunState:
         self.save()
 
     def mark_done(self, stage: str, output=None):
-        self.state[stage] = {"status": "done", "output": str(output) if output else None}
+        if isinstance(output, (list, tuple)):
+            stored_output = [str(item) for item in output]
+        else:
+            stored_output = str(output) if output else None
+        self.state[stage] = {"status": "done", "output": stored_output}
         self.save()
 
     def get_output(self, stage: str):
         entry = self.state.get(stage, {})
         val = entry.get("output") if isinstance(entry, dict) else None
+        if isinstance(val, list):
+            return val
         return Path(val) if val else None
     
     def is_done(self, stage: str) -> bool:

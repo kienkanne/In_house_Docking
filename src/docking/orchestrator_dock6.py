@@ -1,78 +1,118 @@
-import logging
 from pathlib import Path
-import sys
+import shutil
 
 from docking.workflows.charge_preparation import ChargeReceptorWorkflow, ChargeLigandWorkflow 
 from docking.wrappers.dock6_tools import WriteDMSWrapper, SphgenDefaultWrapper, SphereSelectorDefaultWrapper, ShowboxDefaultWrapper, GridDefaultWrapper
 from docking.workflows.dock6_preparation import Dock6Preparation
 from docking.wrappers.dock6_generate_site import generate_site
-from docking.config_schema import RootConfig, load_config
+from docking.config_schema import RootConfig
+from docking.utils.central_logging import setup_all_logs, central_run_stage
+from docking.utils.ligands import load_ligand_csv
 
 class OrchestratorDock6:
-    def __init__(self, cfg: RootConfig, working_dir):
+    def __init__(self, cfg: RootConfig):
         self.cfg = cfg
-        self.working_dir = working_dir
+        self.working_dir = Path(cfg.common.working_dir)
 
     def run(self):
+        self.working_dir.mkdir(parents=True, exist_ok=True)
+        logs = setup_all_logs(
+            "dock6_docking",
+            self.working_dir / "run.log",
+            self.working_dir / "manifest.json",
+            self.working_dir / "state.json",
+        )
 
-        # Charge receptor and ligand
-        charge_receptor_workflow = ChargeReceptorWorkflow(self.cfg, self.working_dir, output_type="mol2", noH=True)
-        charged_receptor, noH_receptor = charge_receptor_workflow.run()
+        ligands = central_run_stage(
+            logs,
+            "Validate Ligands",
+            load_ligand_csv,
+            self.cfg.common.ligand,
+            self.cfg.libs.obabel,
+            self.working_dir,
+            checkpoint=False,
+        )
 
-        charge_ligand_workflow = ChargeLigandWorkflow(self.cfg, self.working_dir, output_type="mol2")
-        charged_ligand = charge_ligand_workflow.run()
+        charge_receptor_workflow = ChargeReceptorWorkflow(self.cfg, self.working_dir, dock6=True)
+        charged_receptor, noH_receptor, noH_receptor_pdb = central_run_stage(
+            logs,
+            "Charge Receptor",
+            charge_receptor_workflow.run,
+        )
 
-        # Generate the charged receptor pdb file for pymol
-        # Feeding pymol with mol2 files with charges seems to cause issues
-
-        charged_receptor_pdb_workflow = ChargeReceptorWorkflow(self.cfg, self.working_dir, output_type="pdb", noH=True)
-        charged_receptor_pdb, _ = charged_receptor_pdb_workflow.run()
-
-        # Write DMS file for receptor
         write_dms = WriteDMSWrapper(working_dir=self.working_dir, noH_receptor=noH_receptor)
-        write_dms.run()
+        central_run_stage(logs, "Write DMS", write_dms.run)
 
-        # Generate spheres
         sphgen_wrapper = SphgenDefaultWrapper(binary_path=self.cfg.libs.sphgen, working_dir=self.working_dir)
-        sphgen_wrapper.run()
+        central_run_stage(logs, "Generate Spheres", sphgen_wrapper.run)
 
-        # Generate binding site mol2
-        # Empty for now, returns binding_site.mol2 in the working dir
-        generate_site(
-            self.working_dir / charged_receptor_pdb,
+        central_run_stage(
+            logs,
+            "Generate Binding Site",
+            generate_site,
+            self.working_dir / noH_receptor_pdb,
             self.cfg.dock6.residue_selection,
-            self.working_dir / "binding_site.mol2"
+            self.working_dir / "binding_site.mol2",
         )
 
-        # Select spheres
         sphere_selector_wrapper = SphereSelectorDefaultWrapper(self.cfg.libs.sphere_selector, self.working_dir, self.cfg.dock6.radius)
-        sphere_selector_wrapper.run()
+        central_run_stage(logs, "Select Spheres", sphere_selector_wrapper.run)
 
-        # Generate box
         showbox_wrapper = ShowboxDefaultWrapper(self.cfg.libs.showbox, self.working_dir, self.cfg.dock6.padding)
-        showbox_wrapper.run()
+        central_run_stage(logs, "Generate Box", showbox_wrapper.run)
 
-        # Generate grid
         grid_wrapper = GridDefaultWrapper(self.cfg.libs.grid, self.working_dir, charged_receptor)
-        grid_wrapper.run()
+        central_run_stage(logs, "Generate Grid", grid_wrapper.run)
   
-        # Run Dock6
-        dock6_wrapper = Dock6Preparation(
-            cfg=self.cfg,
-            working_dir=self.working_dir,
-            charged_receptor=charged_receptor,
-            charged_ligand=charged_ligand
-        )
-        docking_results = dock6_wrapper.run()
-        return docking_results
+        docking_results = []
+        log_files = []
 
-# test:
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(asctime)s %(name)s %(levelname)s: %(message)s",
-        stream=sys.stdout,
-    )
-    cfg = load_config("configs/docking_config.yaml")
-    workflow = OrchestratorDock6(cfg, Path("/home/kbui/SARS_COV_2/data"))
-    workflow.run()
+        for ligand in ligands:
+            charge_ligand_workflow = ChargeLigandWorkflow(
+                self.cfg,
+                self.working_dir,
+                output_type="mol2",
+                ligand=ligand.smiles,
+                ligand_name=ligand.name,
+            )
+            charged_ligand = central_run_stage(
+                logs,
+                f"Charge Ligand {ligand.name}",
+                charge_ligand_workflow.run,
+            )
+
+            dock6_wrapper = Dock6Preparation(
+                cfg=self.cfg,
+                working_dir=self.working_dir,
+                charged_receptor=charged_receptor,
+                charged_ligand=charged_ligand
+            )
+            docking_result, log_file = central_run_stage(
+                logs,
+                f"Dock DOCK6 {ligand.name}",
+                dock6_wrapper.run,
+            )
+            docking_results.append(docking_result)
+            log_files.append(log_file)
+
+        self.cfg.common.results_dir.mkdir(parents=True, exist_ok=True)
+
+        selected_copy = [result for result in docking_results] + [log for log in log_files] + [
+            charged_receptor,
+            "rec_box.pdb",
+            "run.log",
+            "manifest.json",
+            "state.json"
+        ]
+
+        for file in selected_copy:
+            src = self.working_dir / file
+            dst = self.cfg.common.results_dir / file
+            print (dst)
+            shutil.copy2(src, dst)
+
+        logger, manifest, _ = logs
+        manifest.finalize(success=True)
+        logger.info("DOCK6 pipeline completed")
+
+        return docking_results

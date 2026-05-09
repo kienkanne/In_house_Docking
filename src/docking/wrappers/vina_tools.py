@@ -59,4 +59,13 @@ class VinaWrapper(ShellWrapper):
             "--config", self.configs,
             "--out", output_name + "_docked.pdbqt"
         ]
-        return self._execute(cmd_args, None) # Return docking results
+
+        docking_results = self._execute(cmd_args, None)
+
+        output_file = Path(output_name + "_docked.pdbqt")
+        log_file = output_file.with_suffix(".log")
+        
+        with open(self.working_dir / log_file, "w") as file:
+            file.write(docking_results)
+
+        return output_file, log_file

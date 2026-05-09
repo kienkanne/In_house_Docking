@@ -1,0 +1,33 @@
+{
+  "project": "vina_docking",
+  "created_utc": "2026-05-09T07:34:18.335405+00:00",
+  "host": "irene2",
+  "platform": "Linux-6.12.0-124.31.1.el10_1.x86_64-x86_64-with-glibc2.39",
+  "python_version": "3.11.15",
+  "status": "success",
+  "stages": {
+    "Validate Ligands": "done",
+    "Charge Receptor": "done",
+    "Prepare Receptor": "done",
+    "Generate Vina Box": "done",
+    "Charge Ligand aspirin": "done",
+    "Prepare Ligand aspirin": "done",
+    "Dock Vina aspirin": "done",
+    "Charge Ligand carvacrol": "done",
+    "Prepare Ligand carvacrol": "done",
+    "Dock Vina carvacrol": "done"
+  },
+  "timings_sec": {
+    "Validate Ligands": 0.025,
+    "Charge Receptor": 19.306,
+    "Prepare Receptor": 1.118,
+    "Generate Vina Box": 0.027,
+    "Charge Ligand aspirin": 0.085,
+    "Prepare Ligand aspirin": 0.088,
+    "Dock Vina aspirin": 23.803,
+    "Charge Ligand carvacrol": 0.057,
+    "Prepare Ligand carvacrol": 0.058,
+    "Dock Vina carvacrol": 14.692
+  },
+  "finished_utc": "2026-05-09T07:35:17.599184+00:00"
+}

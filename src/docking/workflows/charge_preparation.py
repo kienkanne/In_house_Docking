@@ -6,18 +6,18 @@ from docking.wrappers.charge_tools import ChimeraXWrapper, ObabelWrapper
 
 
 class ChargeReceptorWorkflow: 
-    def __init__(self, cfg, working_dir, output_type, noH=False):
+    def __init__(self, cfg, working_dir, dock6=False):
         self.cfg = cfg
         self.working_dir = working_dir
-        self.output_type = output_type
-        self.noH = noH
+        self.dock6 = dock6
+
         with open(Path(__file__).resolve().parents[1] / "templates" / "chimerax_charge_receptor_template.com") as f:
             self.charge_receptor_template = f.read()
 
     def run(self):
         receptor = self.cfg.common.receptor
-        name = os.path.basename(receptor).split('.')[0]
-        charged_name = f"{name}_charged.{self.output_type}"
+        name = Path(receptor).stem
+        charged_name = f"{name}_charged.pdb"
 
         stdin = Template(self.charge_receptor_template).substitute(
             receptor=receptor,
@@ -25,10 +25,10 @@ class ChargeReceptorWorkflow:
             )
         
         # Writes an additional line to input to remove H if noH is True, otherwise keeps H
-        # Save another file with _noH suffix if noH is True. It should be {name}_charged_noH.{self.output_type}
-        if self.noH:
+        if self.dock6:
             stdin += "\ndelete H\n"
-            stdin += f"\nsave {name}_charged_noH.{self.output_type}\n"
+            stdin += f"\nsave {name}_charged_noH.pdb\n"
+            stdin += f"\nsave {name}_charged_noH.mol2\n"
 
         chimerax_wrapper = ChimeraXWrapper(
             binary_path=self.cfg.libs.chimerax, 
@@ -36,21 +36,23 @@ class ChargeReceptorWorkflow:
             stdin=stdin)
         chimerax_wrapper.run()
         
-        if self.noH:
-            return (charged_name, f"{name}_charged_noH.{self.output_type}")
+        if self.dock6:
+            return (charged_name, f"{name}_charged_noH.mol2", f"{name}_charged_noH.pdb")
 
         return charged_name
 
 class ChargeLigandWorkflow:
-    def __init__(self, cfg, working_dir, output_type) -> Path:
+    def __init__(self, cfg, working_dir, output_type, ligand=None, ligand_name=None) -> Path:
         self.cfg = cfg
         self.working_dir = working_dir
         self.output_type = output_type
+        self.ligand = ligand
+        self.ligand_name = ligand_name
 
     def run(self):
-        lig_option = self.cfg.common.lig_option
-        ligand = self.cfg.common.ligand
-        name = self.cfg.common.lig_name
+        lig_option = "smiles"
+        ligand = self.ligand if self.ligand is not None else self.cfg.common.ligand
+        name = self.ligand_name if self.ligand_name is not None else self.cfg.common.lig_name
         name = f"{name}_charged.{self.output_type}"
 
         obabel_wrapper = ObabelWrapper(
