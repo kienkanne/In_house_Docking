@@ -5,10 +5,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 import platform
 
-
 def utc_now():
     return datetime.now(timezone.utc).isoformat()
-
 
 class Manifest:
     """
@@ -20,8 +18,9 @@ class Manifest:
         self.name = name
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
-
         
+        # Start a global timer for the entire manifest lifetime
+        self._start_time = time.perf_counter()
 
         self.data = {
             "project": str(name),
@@ -62,13 +61,19 @@ class Manifest:
         self.save()
 
     def finalize(self, success=True):
+        """Calculates total duration and marks final status."""
         self.data["status"] = "success" if success else "failed"
         self.data["finished_utc"] = utc_now()
-
+        
+        # Calculate total wall time since __init__
         total_dt = time.perf_counter() - self._start_time
         self.data["total_wall_time"] = f"{total_dt:.3f}s"
+        
         self.save()
 
     def save(self):
-        with open(self.path, "w") as f:
+        """Writes to a temporary file then renames to ensure atomicity."""
+        temp_path = self.path.with_suffix(".tmp")
+        with open(temp_path, "w") as f:
             json.dump(self.data, f, indent=2)
+        temp_path.replace(self.path)
