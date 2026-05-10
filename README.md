@@ -12,7 +12,7 @@ The pipeline prepares the receptor, prepares each ligand from SMILES, docks liga
 Install Conda (Miniconda or Anaconda), then create the environment:
 
 ```bash
-conda env create -n myproject python=3.11
+conda env create -n myproject -f environment.yaml
 conda activate myproject
 ```
 
@@ -21,6 +21,12 @@ Install the Python package in editable mode from the repository root:
 ```bash
 pip install -e .
 ```
+
+Other needed tools that have to be installed:
+
+- DOCK6: See [https://github.com/docking-org/dock6](https://github.com/docking-org/dock6)
+- MGLTOOLS: See [https://ccsb.scripps.edu/mgltools/downloads/](https://ccsb.scripps.edu/mgltools/downloads/)
+- ChimeraX: See [https://www.cgl.ucsf.edu/chimerax/download.html](https://www.cgl.ucsf.edu/chimerax/download.html) 
 
 Most command-line tools can be installed into the active conda/mamba environment and referenced by executable name in the config:
 
@@ -35,6 +41,13 @@ Some tools usually need explicit paths:
 - `prepare_receptor` and `prepare_ligand` must include the MGLTools `pythonsh` executable plus the full script path.
 - DOCK6 tools such as `dock6`, `sphgen`, `sphere_selector`, `showbox`, and `grid` are usually installed outside conda and should be absolute paths.
 - `chimerax` should point to the ChimeraX executable if it is not on `PATH`.
+- Some environment variables can be exported to make the paths easier to read, for example:
+
+```bash
+export MGLTOOLS=$HOME/Apps/mgltools_1.5.7/mgltools_x86_64Linux2_1.5.7/
+export DOCK_HOME=$HOME/Apps/dock6/
+docking run_dock6 --config configs/docking_config.yaml
+```
 
 ## Running
 
@@ -80,13 +93,13 @@ libs:
   obabel: "obabel"
   parallel: "parallel"
   vina: "vina"
-  prepare_receptor: "/path/to/pythonsh /path/to/prepare_receptor4.py"
-  prepare_ligand: "/path/to/pythonsh /path/to/prepare_ligand4.py"
-  dock6: "/path/to/DOCK6/bin/dock6"
-  sphgen: "/path/to/DOCK6/bin/sphgen"
-  sphere_selector: "/path/to/DOCK6/bin/sphere_selector"
-  showbox: "/path/to/DOCK6/bin/showbox"
-  grid: "/path/to/DOCK6/bin/grid"
+  prepare_receptor: "$MGLTOOLS/bin/pythonsh $MGLTOOLS/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py"
+  prepare_ligand: "$MGLTOOLS/bin/pythonsh $MGLTOOLS/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_ligand4.py"
+  dock6: "$DOCK_HOME/bin/dock6"
+  sphgen: "$DOCK_HOME/bin/sphgen"
+  sphere_selector: "$DOCK_HOME/bin/sphere_selector"
+  showbox: "$DOCK_HOME/bin/showbox"
+  grid: "$DOCK_HOME/bin/grid"
 ```
 
 ### `common`
@@ -96,7 +109,7 @@ Inputs, scratch directory, results directory, and batch settings.
 ```yaml
 common:
   working_dir: "/path/to/scratch/sample_vina"
-  receptor: "/path/to/data/8hqg.pdb"
+  receptor: "/path/to/data/6W63.pdb"
   ligand: "/path/to/data/sample_ligands.csv"
   results_dir: "/path/to/results/results_vina"
   pocket_name: "catalytic_site"

@@ -1,6 +1,7 @@
 import subprocess
 import logging
 from pathlib import Path
+import os
 
 class ShellWrapper:
     def __init__(self, binary_path, working_dir):
@@ -12,8 +13,9 @@ class ShellWrapper:
         """Internal runner that handles the subprocess logic."""
         # Handles if binary_path is a string with spaces (e.g. "pythonsh /path/to/script.py")
         if isinstance(self.binary_path, str):
-            binary_parts = self.binary_path.split()
-            full_cmd = binary_parts + cmd_args
+            binary_part_expanded = os.path.expandvars(self.binary_path)
+            binary_parts_expanded = binary_part_expanded.split()
+            full_cmd = binary_parts_expanded + cmd_args
         else:
             full_cmd = [self.binary_path] + cmd_args
         self.logger.info(f"Running: {' '.join([str(arg) for arg in full_cmd])}")

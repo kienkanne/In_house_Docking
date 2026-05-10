@@ -1,28 +1,30 @@
 libs:
-  # Conda/mamba-installed command-line tools can stay as executable names.
   chimerax: "/usr/local/chimerax/bin/ChimeraX"
+
+  # Conda/mamba-installed command-line tools can stay as executable names.
   obabel: "obabel"
   parallel: "parallel"
-
   vina: "vina"
+
   # MGLTools scripts need the explicit pythonsh + script path.
-  prepare_receptor: "/home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/bin/pythonsh /home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py"
-  prepare_ligand: "/home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/bin/pythonsh /home/kbui/Downloads/mgltools_x86_64Linux2_1.5.7p1/mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_ligand4.py"
+  prepare_receptor: "$MGLTOOLS/bin/pythonsh $MGLTOOLS/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py"
+  prepare_ligand: "$MGLTOOLS/bin/pythonsh $MGLTOOLS/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_ligand4.py"
   
   # DOCK6 tools are usually installed outside conda and should be absolute paths.
-  dock6: "/home/kbui/DOCK6/bin/dock6"
-  sphgen: "/home/kbui/DOCK6/bin/sphgen"
-  sphere_selector: "/home/kbui/DOCK6/bin/sphere_selector"
-  showbox: "/home/kbui/DOCK6/bin/showbox"
-  grid: "/home/kbui/DOCK6/bin/grid"
+  dock6: "$DOCK_HOME/bin/dock6"
+  sphgen: "$DOCK_HOME/bin/sphgen"
+  sphere_selector: "$DOCK_HOME/bin/sphere_selector"
+  showbox: "$DOCK_HOME/bin/showbox"
+  grid: "$DOCK_HOME/bin/grid"
 
 common:
   # working_dir is scratch space; receptor and ligand inputs are read from here or absolute paths.
-  working_dir: "/home/kbui/SARS_COV_2/scratch/catalytic_dock6/"
+  working_dir: "/home/kbui/SARS_COV_2/scratch/test/"
   receptor: "/home/kbui/SARS_COV_2/data/6W63.pdb"
   # CSV header must be: smiles,name
   ligand: "/home/kbui/SARS_COV_2/data/ligands_list.csv"
-  results_dir: "/home/kbui/SARS_COV_2/results/catalytic_dock6/"
+
+  results_dir: "/home/kbui/SARS_COV_2/results/test/"
   pocket_name: "catalytic_site"
   # Vina parallel jobs = total_cpu // vina.cpu; DOCK6 parallel jobs = total_cpu.
   total_cpu: 16
