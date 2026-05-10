@@ -25,7 +25,7 @@ pip install -e .
 Other needed tools that have to be installed:
 
 - DOCK6: See [https://github.com/docking-org/dock6](https://github.com/docking-org/dock6)
-- MGLTOOLS: See [https://ccsb.scripps.edu/mgltools/downloads/](https://ccsb.scripps.edu/mgltools/downloads/)
+- MGLTOOLS: See [https://ccsb.scripps.edu/mgltools/downloads](https://ccsb.scripps.edu/mgltools/downloads)
 - ChimeraX: See [https://www.cgl.ucsf.edu/chimerax/download.html](https://www.cgl.ucsf.edu/chimerax/download.html) 
 
 Most command-line tools can be installed into the active conda/mamba environment and referenced by executable name in the config:
@@ -44,8 +44,8 @@ Some tools usually need explicit paths:
 - Some environment variables can be exported to make the paths easier to read, for example:
 
 ```bash
-export MGLTOOLS=$HOME/Apps/mgltools_1.5.7/mgltools_x86_64Linux2_1.5.7/
-export DOCK_HOME=$HOME/Apps/dock6/
+export MGLTOOLS=$HOME/Apps/mgltools_1.5.7/mgltools_x86_64Linux2_1.5.7
+export DOCK_HOME=$HOME/Apps/dock6
 docking run_dock6 --config configs/docking_config.yaml
 ```
 
