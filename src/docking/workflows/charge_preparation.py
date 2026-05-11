@@ -53,19 +53,17 @@ class ChargeLigandWorkflow:
         self.ligand_name = ligand_name
 
     def run(self):
-        lig_option = "smiles"
-        ligand = self.ligand if self.ligand is not None else self.cfg.common.ligand
-        name = self.ligand_name if self.ligand_name is not None else self.cfg.common.lig_name
-        name = f"{name}_charged.{self.output_type}"
+        ligand = self.ligand
+        name = self.ligand_name
+        out_name = f"{name}_charged.{self.output_type}"
 
         obabel_wrapper = ObabelWrapper(
             binary_path=self.cfg.libs.obabel, 
             working_dir=self.working_dir,
-            input_type=lig_option,
             input=ligand, 
-            output_name=name, 
+            output_name=out_name, 
             flags=["--gen3d", "--partialcharge", "gasteiger"] # Default for now
             )
         obabel_wrapper.run()
 
-        return name
+        return out_name

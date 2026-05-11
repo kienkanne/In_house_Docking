@@ -27,9 +27,7 @@ class WriteDMSWrapper(ShellWrapper):
             "--nogui",
             "chimera_write_dms.py"
         ]
-        self._execute(cmd_args, None)
-
-        return None
+        return self._execute(cmd_args, None)
 
 
 class SphgenDefaultWrapper(ShellWrapper):

@@ -23,17 +23,9 @@ class ObabelWrapper(ShellWrapper):
         self.flags = flags
 
     def run(self):
-        if self.input_type == "file":
-            cmd_args = [
-                #"obabel",
-                "-i", self.input,
-                "-O", self.output_name
-            ] + self.flags
-
-        elif self.input_type == "smiles":
-            cmd_args = [
-                #"obabel",
-                f"-:{self.input}",
-                "-O", self.output_name
-            ] + self.flags
+        cmd_args = [
+            #"obabel",
+            f"-:{self.input}",
+            "-O", self.output_name
+        ] + self.flags
         return self._execute(cmd_args, None)
